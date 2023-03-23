@@ -145,9 +145,11 @@
   <ItemGroup>
     <ClCompile Include="client.cpp" />
     <ClCompile Include="crosecservice.cpp" />
+    <ClCompile Include="KeyboardBacklight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="croskbhid.h" />
+    <ClInclude Include="KeyboardBacklight.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
