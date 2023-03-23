@@ -7,7 +7,7 @@
 #include "croskbhid.h"
 #include "KeyboardBacklight.h"
 
-int main()
+int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR     lpCmdLine, int       nShowCmd)
 {
     pcroskbhid_client client = croskbhid_alloc();
     BOOL connect = croskbhid_connect(client);

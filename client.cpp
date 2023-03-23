@@ -170,7 +170,6 @@ BOOL croskbhid_read_keyboard(pcroskbhid_client vmulti, CrosKBHIDRemapperMediaRep
 
 	if (!ReadFile(vmulti->hKeyboard, pReport, sizeof(CrosKBHIDRemapperMediaReport), &bytesRead, NULL))
 	{
-		printf("failed ReadFile %d\n", GetLastError());
 		return FALSE;
 	}
 
@@ -187,7 +186,6 @@ BOOL croskbhid_write_keyboard(pcroskbhid_client croskbhid, CrosKBHIDRemapperMedi
 
 	if (!WriteFile(croskbhid->hKeyboard, pReport, sizeof(CrosKBHIDRemapperMediaReport), &bytesWritten, NULL))
 	{
-		printf("failed WriteFile %d\n", GetLastError());
 		return FALSE;
 	}
 
@@ -204,7 +202,6 @@ BOOL croskblight_read_message(pcroskbhid_client vmulti, CrosKBLightSettingsRepor
 
 	if (!ReadFile(vmulti->hSettings, pReport, sizeof(CrosKBLightSettingsReport), &bytesRead, NULL))
 	{
-		printf("failed ReadFile %d\n", GetLastError());
 		return FALSE;
 	}
 
@@ -221,7 +218,6 @@ BOOL croskblight_write_message(pcroskbhid_client croskbhid, CrosKBLightSettingsR
 
 	if (!WriteFile(croskbhid->hSettings, pReport, sizeof(CrosKBLightSettingsReport), &bytesWritten, NULL))
 	{
-		printf("failed WriteFile %d\n", GetLastError());
 		return FALSE;
 	}
 
