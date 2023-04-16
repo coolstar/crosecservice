@@ -12,6 +12,9 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR     lpCmdLine, i
     pcroskbhid_client client = croskbhid_alloc();
     BOOL connect = croskbhid_connect(client);
     printf("Connected? %d\n", connect);
+    if (!connect) {
+        return 0;
+    }
 
     KeyboardBacklight backlight(client);
 
