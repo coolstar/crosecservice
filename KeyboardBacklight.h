@@ -4,6 +4,7 @@ public:
 
 private:
     BOOL HasKeyboardBacklight = FALSE;
+    BOOL IsLaptopMode = TRUE;
     INT InternalBrightness = 100;
     INT CurrentBrightness = 100;
     INT BrightnessFadeStep = 0;

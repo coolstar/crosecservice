@@ -67,10 +67,16 @@ void KeyboardBacklight::BrightnessDec() {
 }
 
 void KeyboardBacklight::FadeBrightnessStep() {
+    INT TimerAdjustment = 0;
     while (this->HasKeyboardBacklight) {
-        Sleep(50);
+        if ((50 - TimerAdjustment) > 0) {
+            Sleep(50 - TimerAdjustment);
+        }
 
-        if (this->InternalBrightness == this->BrightnessFadeTarget) {
+        ULONGLONG Start = GetTickCount64();
+
+        if (this->InternalBrightness == this->BrightnessFadeTarget &&
+            this->IsLaptopMode == (GetSystemMetrics(SM_CONVERTIBLESLATEMODE) != 0)) {
             LASTINPUTINFO lastInput;
             lastInput.cbSize = sizeof(lastInput);
             GetLastInputInfo(&lastInput);
@@ -84,6 +90,8 @@ void KeyboardBacklight::FadeBrightnessStep() {
                 if (this->BacklightEnabled)
                     this->FadeSetInternal(this->CurrentBrightness);
             }
+
+            TimerAdjustment = (INT)(GetTickCount64() - Start);
 
             continue;
         }
@@ -108,6 +116,8 @@ void KeyboardBacklight::FadeBrightnessStep() {
         }
 
         this->InstantlySet(DesiredBrightness);
+
+        TimerAdjustment = (INT)(GetTickCount64() - Start);
     }
 }
 
@@ -122,6 +132,11 @@ void KeyboardBacklight::InstantlySet(INT brightness) {
     report.ReportID = REPORTID_KBLIGHT;
     report.SetBrightness = 1;
     report.Brightness = this->BacklightEnabled ? brightness : 0;
+    
+    this->IsLaptopMode = (GetSystemMetrics(SM_CONVERTIBLESLATEMODE) != 0);
+    if (!this->IsLaptopMode) {
+        report.Brightness = 0;
+    }
 
     croskblight_write_message(client, &report);
 }
