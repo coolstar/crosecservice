@@ -19,6 +19,7 @@ public:
     KeyboardBacklight(pcroskbhid_client client);
     ~KeyboardBacklight();
 
+    BOOL CheckIsLaptopMode();
     BOOL GetBacklightEnabled();
     void SetBacklightEnabled(BOOL enabled);
     INT GetBrightness();

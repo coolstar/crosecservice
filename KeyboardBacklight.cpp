@@ -76,7 +76,7 @@ void KeyboardBacklight::FadeBrightnessStep() {
         ULONGLONG Start = GetTickCount64();
 
         if (this->InternalBrightness == this->BrightnessFadeTarget &&
-            this->IsLaptopMode == (GetSystemMetrics(SM_CONVERTIBLESLATEMODE) != 0)) {
+            this->IsLaptopMode == CheckIsLaptopMode()) {
             LASTINPUTINFO lastInput;
             lastInput.cbSize = sizeof(lastInput);
             GetLastInputInfo(&lastInput);
@@ -121,6 +121,15 @@ void KeyboardBacklight::FadeBrightnessStep() {
     }
 }
 
+extern BOOL isTabletConvertible;
+
+BOOL KeyboardBacklight::CheckIsLaptopMode() {
+    if (!isTabletConvertible) {
+        return TRUE;
+    }
+    return (GetSystemMetrics(SM_CONVERTIBLESLATEMODE) != 0);
+}
+
 void KeyboardBacklight::InstantlySet(INT brightness) {
     if (brightness > 100)
         brightness = 100;
@@ -133,7 +142,7 @@ void KeyboardBacklight::InstantlySet(INT brightness) {
     report.SetBrightness = 1;
     report.Brightness = this->BacklightEnabled ? brightness : 0;
     
-    this->IsLaptopMode = (GetSystemMetrics(SM_CONVERTIBLESLATEMODE) != 0);
+    this->IsLaptopMode = CheckIsLaptopMode();
     if (!this->IsLaptopMode) {
         report.Brightness = 0;
     }
